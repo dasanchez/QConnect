@@ -1,7 +1,7 @@
 QConnect
 ==========
 
-Multiple terminal display
+##Multiple terminal display
 
 ![QConnect Screenshot](./window.png "2013-03-02")
 
