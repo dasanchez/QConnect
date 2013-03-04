@@ -18,6 +18,7 @@ Go to the [QtSerialPort page](http://qt-project.org/wiki/QtSerialPort) in the Qt
 3. Open up a Qt command prompt and go to the project folder.
 
     *C:\qt-qtserialport> qmake qtserialport.pro*
+	
 	*C:\qt-qtserialport> qmake*
 	
 	*C:\qt-qtserialport> mingw32-make*
