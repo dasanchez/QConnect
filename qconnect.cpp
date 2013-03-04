@@ -8,7 +8,6 @@ QConnect::QConnect(QWidget *parent)
     hl01 = new QHBoxLayout;
     hl01->addWidget(connectionList);
     hl01->addWidget(terminalList);
-    //  hl01->setAlignment(Qt::AlignLeft);
     this->setLayout(hl01);
 
     connect(connectionList,SIGNAL(connectionListChanged(QStringList)),terminalList,SLOT(updateConnections(QStringList)));

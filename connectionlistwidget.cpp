@@ -12,24 +12,18 @@ ConnectionListWidget::ConnectionListWidget(QWidget *parent)
     topLayout->addWidget(widgetNameLabel);
     topLayout->addWidget(newConnBtn);
 
-    scrollArea = new QScrollArea;
-    scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-    //    scrollArea->setBackgroundRole(QPalette::Dark);
-    scrollAreaVLayout = new QVBoxLayout;
-    saWidgetContents = new QWidget();
-
-    saWidgetContents->setLayout(scrollAreaVLayout);
-    scrollAreaVLayout->setSizeConstraint(QLayout::SetFixedSize);
-    scrollArea->setWidget(saWidgetContents);
+    listWidget = new LiveListWidget(this);
+    listWidget->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Minimum);
 
     mainLayout = new QVBoxLayout(this);
     mainLayout->addLayout(topLayout);
-    mainLayout->addWidget(scrollArea);
+    mainLayout->addWidget(listWidget);
 
     this->setLayout(mainLayout);
     setFixedWidth(410);
     connect(newConnBtn,SIGNAL(clicked()),this,SLOT(newConnection()));
+    connect(listWidget,SIGNAL(itemRemoved(int)),this,SLOT(itemRemoved(int)));
+    connect(listWidget,SIGNAL(itemMoved(int, int, QListWidgetItem*)),this,SLOT(resorted(int,int,QListWidgetItem*)));
 }
 
 ConnectionListWidget::~ConnectionListWidget()
@@ -37,14 +31,37 @@ ConnectionListWidget::~ConnectionListWidget()
 
 }
 
+void ConnectionListWidget::sizeChanged(QSize newSize)
+{
+    ConnectionWidget* conn = static_cast<ConnectionWidget*>(QObject::sender());
+     int row = connectionList.indexOf(conn);
+     listWidget->item(row)->setSizeHint(newSize);
+}
+
+void ConnectionListWidget::itemRemoved(int row)
+{
+    connectionList.removeAt(row);
+}
+
+void ConnectionListWidget::resorted(int src, int dest, QListWidgetItem* item)
+{
+      connectionList.insert(dest, connectionList.takeAt(src));
+}
+
 void ConnectionListWidget::newConnection()
 {
     ConnectionWidget *connWidget = new ConnectionWidget;
     connWidget->setName(newConnectionName());
     connectionList.append(connWidget);
-    scrollAreaVLayout->addWidget(connWidget);
+
+    QListWidgetItem *item = new QListWidgetItem;
+    listWidget->addItem(item);
+    listWidget->setItemWidget(item,connWidget);
+    item->setSizeHint(connWidget->sizeHint());
+
     connect(connWidget,SIGNAL(nameChange()),this,SLOT(nameChanged()));
     connect(connWidget,SIGNAL(widgetRemoved()),this,SLOT(connectionRemoved()));
+    connect(connWidget,SIGNAL(sizeChange(QSize)),this,SLOT(sizeChanged(QSize)));
     updateList();
 }
 
@@ -60,14 +77,13 @@ void ConnectionListWidget::updateList()
 
 void ConnectionListWidget::connectionRemoved()
 {
-    ConnectionWidget* conn = qobject_cast<ConnectionWidget *>(QObject::sender());
-    foreach(ConnectionWidget *widget,connectionList)
-    {
-        if(widget==conn)
-        {
-            connectionList.removeAt(connectionList.indexOf(widget));
-        }
-    }
+    ConnectionWidget* conn = static_cast<ConnectionWidget*>(QObject::sender());
+     int row = connectionList.indexOf(conn);
+     QListWidgetItem *item = listWidget->item(row);
+     connectionList.removeAt(row);
+     listWidget->removeItemWidget(item);
+     listWidget->takeItem(row);
+
     // Check the remaining connection names
     checkAllNames();
     updateList();

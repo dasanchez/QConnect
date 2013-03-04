@@ -108,18 +108,10 @@ void QTerminalEdit::appendText(QString newText, bool internal)
 
         }
         this->setTextCursor(tc);
-//        tc.setCharFormat(tcf);
-//        tc.insertText(newText);
-//        this->setTextCursor(tc);
     }
     else
     {
         appendText(newText);
-//        tcf.setForeground(QBrush(QColor("black")));
-//        tc.movePosition(QTextCursor::End);
-//        tc.setCharFormat(tcf);
-//        tc.insertText(newText);
-//        this->setTextCursor(tc);
     }
 }
 

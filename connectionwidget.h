@@ -21,7 +21,7 @@ class ConnectionWidget : public QWidget
     Q_OBJECT
 public:
     ConnectionWidget(QWidget *parent = 0);
-        ~ConnectionWidget();
+    ~ConnectionWidget();
     QString getName(void);
     void setName(QString);
     bool nameIsValid(void);
@@ -30,6 +30,7 @@ signals:
     void nameChange(void);
     void widgetRemoved(void);
     void dataRx(QByteArray);
+    void sizeChange(QSize);
     
 public slots:
     void setNameValid(bool);
@@ -39,16 +40,16 @@ private:
     // Control
     QPushButton *removeButton;
     QLineEdit *nameEdit;
+
     QString connectionName;
     QPushButton *connectButton;
     QPushButton *viewButton;
 
     // Connection
     QDataConnection *dataConnection;
-    QLabel *typeLabel;
     QLabel *addressLabel;
     QLabel *portLabel;
-    QComboBox *typeComboBox;
+    QPushButton *typeButton;
     QLineEdit *addressEdit;
     QLineEdit *portEdit;
     QFrame *connFrame;
@@ -56,16 +57,28 @@ private:
 
     // Status
     QLabel *statusBar;
-    QLabel *dataIcon;
+    QPushButton *dataIcon;
     quint16 dataIconShade;
     QTimer *iconTimer;
 
     // Layout
     QHBoxLayout *topLayout;
     QHBoxLayout *bottomLayout;
-    QGridLayout *controlLayout;
+    QHBoxLayout *controlLayout;
     QVBoxLayout *mainLayout;
-    QFrame *frame;
+
+    bool isExpanded;
+
+    // Assets
+    QPixmap tcpIconPixmap;
+    QPixmap udpIconPixmap;
+    QPixmap comIconPixmap;
+    QPixmap moreIconPixmap;
+    QPixmap lessIconPixmap;
+    QPixmap delIconPixmap;
+    QPixmap connOffIconPixmap;
+    QPixmap connOnIconPixmap;
+    QPixmap inOutIconPixmap;
 
 private slots:
     void toggleView(void);
@@ -73,7 +86,8 @@ private slots:
     void animateDataIcon(void);
     void remove();
     void togglePropertyFields(bool);
-        // Data connection
+    void toggleType();
+    // Data connection
     void typeChanged(QString newType);
     void addressChanged(QString);
     void portChanged(QString);

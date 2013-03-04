@@ -19,7 +19,8 @@ SOURCES += main.cpp\
     connectionlistwidget.cpp \
     connectionwidget.cpp \
     terminallistwidget.cpp \
-    qterminaledit.cpp
+    qterminaledit.cpp \
+    livelistwidget.cpp
 
 HEADERS  += qconnect.h \
     qdataconnection.h \
@@ -27,6 +28,12 @@ HEADERS  += qconnect.h \
     connectionlistwidget.h \
     connectionwidget.h \
     terminallistwidget.h \
-    qterminaledit.h
+    qterminaledit.h \
+    livelistwidget.h
 
 }
+
+OTHER_FILES += \
+    livelistwidget.css \
+    terminalwidget.css \
+    connectionwidget.css

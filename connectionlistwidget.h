@@ -10,9 +10,7 @@
 #include <QScrollArea>
 #include <QList>
 #include "connectionwidget.h"
-
-//class QVBoxLayout;
-
+#include "livelistwidget.h"
 
 class ConnectionListWidget : public QWidget
 {
@@ -37,9 +35,7 @@ private:
     QLabel *bottomLabel;
     QLabel *widgetNameLabel;
 
-    QScrollArea *scrollArea;
-    QVBoxLayout *scrollAreaVLayout;
-    QWidget *saWidgetContents;
+    LiveListWidget *listWidget;
 
     QString newConnectionName(void);
     void checkAllNames(void);
@@ -48,6 +44,9 @@ private:
 private slots:
     void nameChanged(void);
     void connectionRemoved(void);
+    void itemRemoved(int row);
+    void sizeChanged(QSize);
+    void resorted(int src, int dest, QListWidgetItem* item);
 };
 
 #endif // CONNECTIONWIDGET_H

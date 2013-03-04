@@ -1,0 +1,13 @@
+QListView {
+background-color: "black";
+}
+
+QListView::item:selected {
+background-color: rgb(20,20,20);
+border-style: solid;
+border-color: rgb(0,0,0);
+}
+
+QListView::item:hover {
+background-color: rgb(50,50,50);
+}

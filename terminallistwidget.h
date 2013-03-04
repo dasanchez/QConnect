@@ -11,6 +11,7 @@
 #include <QList>
 
 #include "terminalwidget.h"
+#include "livelistwidget.h"
 
 class TerminalListWidget : public QWidget
 {

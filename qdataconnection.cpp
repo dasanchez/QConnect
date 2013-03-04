@@ -15,7 +15,7 @@ QDataConnection::QDataConnection(QWidget *parent) :
     serialPort = new QSerialPort("COM3");
     connConfig.connType = TCP;
     connConfig.addr_port = QString("192.168.0.193");
-    connConfig.port_baud = 2222;
+    connConfig.port_baud = 50500;
     connConfig.connState = INACTIVE;
     connect(tcpSocket,SIGNAL(connected()),this,SLOT(tcpConnected()));
     connect(tcpSocket,SIGNAL(readyRead()),this,SLOT(dataAvailable()));
