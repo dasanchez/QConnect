@@ -31,8 +31,6 @@ HEADERS  += qconnect.h \
     qterminaledit.h \
     livelistwidget.h
 
-}
-
 OTHER_FILES += \
     livelistwidget.css \
     terminalwidget.css \
