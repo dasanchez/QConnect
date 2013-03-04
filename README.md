@@ -14,7 +14,7 @@ Go to the [QtSerialPort page](http://qt-project.org/wiki/QtSerialPort) in the Qt
 1. Install Perl and make sure it's in your system PATH.
 2. Download the QtSerialPort source:
 
-    git clone git://gitorious.org/qt/qtserialport.git
+    *git clone git://gitorious.org/qt/qtserialport.git*
 3. Open up a Qt command prompt and go to the project folder.
 
     *C:\qt-qtserialport> qmake qtserialport.pro*
@@ -27,7 +27,7 @@ Go to the [QtSerialPort page](http://qt-project.org/wiki/QtSerialPort) in the Qt
 4. Open a project in Qt Creator and add this to your **.pro** file:
     QT += serialport
 5. And these includes (only the first one is necessary):
-    #include <QtSerialPort/qserialport.h>
-	#include <QtSerialPort/qserialportinfo.h>
+    \#include <QtSerialPort/qserialport.h>
+	\#include <QtSerialPort/qserialportinfo.h>
 6. Use the **QSerialPort** class as your IO device. Look at my DataConnection class for more tips on usage.
 
