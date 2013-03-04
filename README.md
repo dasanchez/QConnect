@@ -28,7 +28,9 @@ Go to the [QtSerialPort page](http://qt-project.org/wiki/QtSerialPort) in the Qt
     
 	QT += serialport
 5. And these includes (only the first one is necessary):
-    \#include <QtSerialPort/qserialport.h>
-	\#include <QtSerialPort/qserialportinfo.h>
+
+    \#include \<QtSerialPort/qserialport.h>
+
+    \#include \<QtSerialPort/qserialportinfo.h>
 6. Use the **QSerialPort** class as your IO device. Look at my DataConnection class for more tips on usage.
 
