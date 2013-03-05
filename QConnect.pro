@@ -34,4 +34,5 @@ HEADERS  += qconnect.h \
 OTHER_FILES += \
     livelistwidget.css \
     terminalwidget.css \
-    connectionwidget.css
+    connectionwidget.css \
+    terminallistwidget.css

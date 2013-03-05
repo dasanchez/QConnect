@@ -79,6 +79,11 @@ TerminalWidget::TerminalWidget(QWidget *parent) :
     connect(asciiTerminal,SIGNAL(textEntered(QString,bool)),this,SLOT(textEntered(QString,bool)));
     connect(hexTerminal,SIGNAL(textEntered(QString,bool)),this,SLOT(textEntered(QString,bool)));
 
+    // Styling
+    QFile qss("../QConnect/terminalwidget.css");
+    qss.open(QFile::ReadOnly);
+    setStyleSheet(qss.readAll());
+    qss.close();
 }
 
 TerminalWidget::~TerminalWidget()

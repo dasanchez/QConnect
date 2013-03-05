@@ -40,7 +40,7 @@ void QTerminalEdit::appendText(QString newText)
 {
     QTextCursor tc = this->textCursor();
     QTextCharFormat tcf = tc.charFormat();
-    tcf.setForeground(QBrush(QColor("black")));
+    tcf.setForeground(QBrush(QColor("white")));
     tc.movePosition(QTextCursor::End);
     tc.setCharFormat(tcf);
 
@@ -77,7 +77,7 @@ void QTerminalEdit::appendText(QString newText, bool internal)
     QTextCharFormat tcf = tc.charFormat();
     if(internal)
     {
-        tcf.setForeground(QBrush(QColor("red")));
+        tcf.setForeground(QBrush(QColor("green")));
         tc.movePosition(QTextCursor::End);
 
         if(hexMode)

@@ -10,8 +10,8 @@
 #include <QSplitter>
 #include <QList>
 
-#include "terminalwidget.h"
 #include "livelistwidget.h"
+#include "terminalwidget.h"
 
 class TerminalListWidget : public QWidget
 {
@@ -37,12 +37,15 @@ private:
     QVBoxLayout *scrollAreaVLayout;
     QWidget *saWidgetContents;
 
+//    LiveListWidget *listWidget;
+
     QStringList nameList;
 
 private slots:
     void newTerminal(void);
     void terminalRemoved(void);
     void terminalConnectionRequest(QString);
+    void sizeChanged(QSize);
 };
 
 #endif // TERMINALLISTWIDGET_H
