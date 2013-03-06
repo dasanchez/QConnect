@@ -20,9 +20,9 @@ void QTerminalEdit::keyPressEvent(QKeyEvent *e)
     emit textEntered(e->text(),hexMode);
 }
 
-void QTerminalEdit::setEcho(bool echo)
+void QTerminalEdit::toggleEcho()
 {
-    echoBytes = echo;
+    echoBytes = !echoBytes;
 }
 
 bool QTerminalEdit::willEcho(void)

@@ -16,7 +16,7 @@ public:
 signals:
     void textEntered(QString,bool);
 public slots:
-    void setEcho(bool);
+    void toggleEcho();
 private:
     bool echoBytes;
     bool hexMode;

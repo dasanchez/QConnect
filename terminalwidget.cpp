@@ -7,8 +7,13 @@ TerminalWidget::TerminalWidget(QWidget *parent) :
     delIconPixmap = QPixmap("../QConnect/delete_icon.png");
     echoOnIconPixmap = QPixmap("../QConnect/echoon_icon.png");
     echoOffIconPixmap = QPixmap("../QConnect/echooff_icon.png");
+    playIconPixmap = QPixmap("../QConnect/play_icon.png");
+    pauseIconPixmap = QPixmap("../QConnect/pause_icon.png");
+    clearIconPixmap = QPixmap("../QConnect/clear_icon.png");
 
     connectionWidget = new ConnectionWidget;
+    paused = false;
+    echoing=false;
 
     asciiTerminal = new QTerminalEdit;
     hexTerminal = new QTerminalEdit;
@@ -20,12 +25,7 @@ TerminalWidget::TerminalWidget(QWidget *parent) :
     connectionBox = new QComboBox;
     connectionBox->setFixedHeight(24);
     connectionBox->setMinimumWidth(100);
-    echoButton = new QPushButton;
-    echoButton->setIcon(QIcon(echoOffIconPixmap));
-    echoButton->setCheckable(true);
-    echoButton->setChecked(false);
-    echoButton->setFixedHeight(24);
-    echoButton->setFixedWidth(24);
+
     asciiButton = new QPushButton("Ascii");
     asciiButton->setCheckable(true);
     asciiButton->setChecked(true);
@@ -34,16 +34,22 @@ TerminalWidget::TerminalWidget(QWidget *parent) :
     hexButton->setCheckable(true);
     hexButton->setChecked(true);
     hexButton->setFixedHeight(24);
-    pauseButton = new QPushButton("Pause");
-    pauseButton->setCheckable(true);
-    pauseButton->setChecked(false);
+    echoButton = new QPushButton;
+    echoButton->setIcon(QIcon(echoOffIconPixmap));
+    echoButton->setFixedHeight(24);
+    echoButton->setFixedWidth(24);
+    pauseButton = new QPushButton;
     pauseButton->setFixedHeight(24);
-    clearButton = new QPushButton("Clear");
+    pauseButton->setFixedWidth(24);
+    pauseButton->setIcon(QIcon(playIconPixmap));
+    clearButton = new QPushButton;
+    clearButton->setIcon(QIcon(clearIconPixmap));
     clearButton->setFixedHeight(24);
-        removeButton = new QPushButton;
-        removeButton->setIcon(QIcon(delIconPixmap));
-        removeButton->setFixedHeight(24);
-
+    clearButton->setFixedWidth(24);
+    removeButton = new QPushButton;
+    removeButton->setIcon(QIcon(delIconPixmap));
+    removeButton->setFixedHeight(24);
+    removeButton->setFixedWidth(24);
 
     hexPacketButton = new QPushButton("Hex");
     hexPacketButton->setCheckable(true);
@@ -58,12 +64,13 @@ TerminalWidget::TerminalWidget(QWidget *parent) :
     controlLayout = new QHBoxLayout;
 
     controlLayout->addWidget(connectionBox);
-    controlLayout->addWidget(echoButton);
+
     controlLayout->addWidget(asciiButton);
     controlLayout->addWidget(hexButton);
+        controlLayout->addWidget(echoButton);
     controlLayout->addWidget(pauseButton);
     controlLayout->addWidget(clearButton);
-        controlLayout->addWidget(removeButton);
+    controlLayout->addWidget(removeButton);
 
     packetLayout = new QHBoxLayout;
     packetLayout->addWidget(hexPacketButton);
@@ -92,9 +99,10 @@ TerminalWidget::TerminalWidget(QWidget *parent) :
     connect(hexButton,SIGNAL(toggled(bool)),this,SLOT(hexTermToggled(bool)));
     connect(asciiButton,SIGNAL(toggled(bool)),this,SLOT(resizeTerminals()));
     connect(hexButton,SIGNAL(toggled(bool)),this,SLOT(resizeTerminals()));
-    connect(echoButton,SIGNAL(toggled(bool)),asciiTerminal,SLOT(setEcho(bool)));
-    connect(echoButton,SIGNAL(toggled(bool)),hexTerminal,SLOT(setEcho(bool)));
-    connect(echoButton,SIGNAL(toggled(bool)),this,SLOT(toggleEcho(bool)));
+    connect(echoButton,SIGNAL(clicked()),asciiTerminal,SLOT(toggleEcho()));
+    connect(echoButton,SIGNAL(clicked()),hexTerminal,SLOT(toggleEcho()));
+    connect(echoButton,SIGNAL(clicked()),this,SLOT(toggleEcho()));
+    connect(pauseButton,SIGNAL(clicked()),this,SLOT(togglePause()));
     connect(clearButton,SIGNAL(clicked()),asciiTerminal,SLOT(clear()));
     connect(clearButton,SIGNAL(clicked()),hexTerminal,SLOT(clear()));
     connect(hexPacketButton,SIGNAL(toggled(bool)),this,SLOT(togglePacketFormat(bool)));
@@ -114,8 +122,9 @@ TerminalWidget::~TerminalWidget()
 
 }
 
-void TerminalWidget::toggleEcho(bool echoing)
+void TerminalWidget::toggleEcho()
 {
+    echoing = !echoing;
     if(echoing)
     {
         echoButton->setIcon(QIcon(echoOnIconPixmap));
@@ -251,14 +260,27 @@ void TerminalWidget::dataReceived(QByteArray dataIn)
 
     foreach (char ch , dataIn){
         if(ch!=0)
-        data.append(ch);
+            data.append(ch);
     }
-//    qDebug() << mydata;
+    //    qDebug() << mydata;
 
-    if(!pauseButton->isChecked())
+    if(!paused)
     {
         asciiTerminal->appendText(data);
         hexTerminal->appendText(data);
+    }
+}
+
+void TerminalWidget::togglePause()
+{
+    paused=!paused;
+    if(paused)
+    {
+        pauseButton->setIcon(QIcon(pauseIconPixmap));
+    }
+    else
+    {
+        pauseButton->setIcon(QIcon(playIconPixmap));
     }
 }
 
@@ -270,7 +292,7 @@ void TerminalWidget::sendPacket()
         packet = hex2char(packet);
 
     }
-    if(echoButton->isChecked())
+    if(echoing)
     {
         asciiTerminal->appendText(packet,true);
         hexTerminal->appendText(packet,true);

@@ -20,11 +20,6 @@ QComboBox:down-arrow {
  image: url(../QConnect/triangle_Icon.png);
 }
 
-/*QComboBox::drop-down {*/
-/*border: 3px solid rgb(100,100,100);
-selection-color: rgb(250,0,0);*/
-/*}*/
-
 QComboBox QAbstractItemView {
     color: rgb(200,200,200);
      border: 2px solid darkgray;
@@ -76,7 +71,8 @@ border-color: rgb(100,100,100);
 border-radius: 4px;
 }
 
-QPushButton::disabled {
+/*QPushButton::disabled {*/
+QPushButton::checked {
 background-color: rgb(100,100,100);
 }
 

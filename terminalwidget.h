@@ -39,6 +39,8 @@ private:
     QRegExp hexRegex;
     QString hex2char(QString);
     QString char2hex(QString);
+    bool paused;
+    bool echoing;
 
     ConnectionWidget *connectionWidget;
 
@@ -67,10 +69,13 @@ private:
         QPixmap delIconPixmap;
         QPixmap echoOnIconPixmap;
         QPixmap echoOffIconPixmap;
+        QPixmap playIconPixmap;
+        QPixmap pauseIconPixmap;
+        QPixmap clearIconPixmap;
 
 private slots:
     void textEntered(QString, bool);
-    void toggleEcho(bool);
+    void toggleEcho();
     void togglePacketFormat(bool);
     void resizeTerminals(void);
     void asciiTermToggled(bool);
@@ -79,6 +84,7 @@ private slots:
     void remove(void);
     void changeConnection(QString);
     void detachConnection(void);
+    void togglePause();
 };
 
 #endif // TERMINALWIDGET_H
