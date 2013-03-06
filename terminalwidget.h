@@ -41,6 +41,7 @@ private:
     QString char2hex(QString);
     bool paused;
     bool echoing;
+    bool hexPacket;
 
     ConnectionWidget *connectionWidget;
 
@@ -72,11 +73,14 @@ private:
         QPixmap playIconPixmap;
         QPixmap pauseIconPixmap;
         QPixmap clearIconPixmap;
+        QPixmap ascIconPixmap;
+        QPixmap hexIconPixmap;
+        QPixmap sendIconPixmap;
 
 private slots:
     void textEntered(QString, bool);
     void toggleEcho();
-    void togglePacketFormat(bool);
+    void togglePacketFormat();
     void resizeTerminals(void);
     void asciiTermToggled(bool);
     void hexTermToggled(bool);

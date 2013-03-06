@@ -10,10 +10,15 @@ TerminalWidget::TerminalWidget(QWidget *parent) :
     playIconPixmap = QPixmap("../QConnect/play_icon.png");
     pauseIconPixmap = QPixmap("../QConnect/pause_icon.png");
     clearIconPixmap = QPixmap("../QConnect/clear_icon.png");
+    ascIconPixmap = QPixmap("../QConnect/asc_icon.png");
+    hexIconPixmap = QPixmap("../QConnect/hex_icon.png");
+    sendIconPixmap = QPixmap("../QConnect/send_icon.png");
 
     connectionWidget = new ConnectionWidget;
     paused = false;
     echoing=false;
+    hexPacket=false;
+
 
     asciiTerminal = new QTerminalEdit;
     hexTerminal = new QTerminalEdit;
@@ -51,14 +56,16 @@ TerminalWidget::TerminalWidget(QWidget *parent) :
     removeButton->setFixedHeight(24);
     removeButton->setFixedWidth(24);
 
-    hexPacketButton = new QPushButton("Hex");
-    hexPacketButton->setCheckable(true);
-    hexPacketButton->setChecked(false);
+    hexPacketButton = new QPushButton;
+    hexPacketButton->setIcon(QIcon(hexIconPixmap));
     hexPacketButton->setFixedHeight(24);
+    hexPacketButton->setFixedWidth(24);
     packetEdit = new QLineEdit;
     packetEdit->setFixedHeight(24);
-    sendButton = new QPushButton("Send");
+    sendButton = new QPushButton;
+    sendButton->setIcon(QIcon(sendIconPixmap));
     sendButton->setFixedHeight(24);
+    sendButton->setFixedWidth(24);
 
     // Layout:
     controlLayout = new QHBoxLayout;
@@ -105,7 +112,7 @@ TerminalWidget::TerminalWidget(QWidget *parent) :
     connect(pauseButton,SIGNAL(clicked()),this,SLOT(togglePause()));
     connect(clearButton,SIGNAL(clicked()),asciiTerminal,SLOT(clear()));
     connect(clearButton,SIGNAL(clicked()),hexTerminal,SLOT(clear()));
-    connect(hexPacketButton,SIGNAL(toggled(bool)),this,SLOT(togglePacketFormat(bool)));
+    connect(hexPacketButton,SIGNAL(clicked()),this,SLOT(togglePacketFormat()));
     connect(sendButton,SIGNAL(clicked()),this,SLOT(sendPacket()));
     connect(asciiTerminal,SIGNAL(textEntered(QString,bool)),this,SLOT(textEntered(QString,bool)));
     connect(hexTerminal,SIGNAL(textEntered(QString,bool)),this,SLOT(textEntered(QString,bool)));
@@ -240,16 +247,19 @@ void TerminalWidget::hexTermToggled(bool on)
     }
 }
 
-void TerminalWidget::togglePacketFormat(bool hex)
+void TerminalWidget::togglePacketFormat()
 {
-    if(hex)
+    hexPacket = !hexPacket;
+    if(hexPacket)
     {
         packetEdit->setText(char2hex(packetEdit->text()));
+        hexPacketButton->setIcon(QIcon(hexIconPixmap));
     }
     else
     {
 
         packetEdit->setText(hex2char(packetEdit->text()));
+        hexPacketButton->setIcon(QIcon(ascIconPixmap));
     }
 }
 
