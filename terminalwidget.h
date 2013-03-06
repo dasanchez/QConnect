@@ -63,8 +63,14 @@ private:
     QVBoxLayout *mainLayout;
         QFrame *frame;
 
+        // Assets:
+        QPixmap delIconPixmap;
+        QPixmap echoOnIconPixmap;
+        QPixmap echoOffIconPixmap;
+
 private slots:
     void textEntered(QString, bool);
+    void toggleEcho(bool);
     void togglePacketFormat(bool);
     void resizeTerminals(void);
     void asciiTermToggled(bool);

@@ -14,8 +14,8 @@ QDataConnection::QDataConnection(QWidget *parent) :
     udpSocket = new QUdpSocket;
     serialPort = new QSerialPort("COM3");
     connConfig.connType = TCP;
-    connConfig.addr_port = QString("192.168.0.193");
-    connConfig.port_baud = 50500;
+    connConfig.addr_port = QString("127.0.0.1");
+    connConfig.port_baud = 52292;
     connConfig.connState = INACTIVE;
     connect(tcpSocket,SIGNAL(connected()),this,SLOT(tcpConnected()));
     connect(tcpSocket,SIGNAL(readyRead()),this,SLOT(dataAvailable()));
@@ -180,6 +180,7 @@ void QDataConnection::dataAvailable()
     default:
         break;
     }
+
     emit dataIn(bytebuf);
 }
 
@@ -226,6 +227,9 @@ void QDataConnection::errorHandler(QAbstractSocket::SocketError error)
         break;
     case QAbstractSocket::HostNotFoundError:
         emit connectionError(QString("Host address was not found"));
+        break;
+    case::QAbstractSocket::ClosingState:
+        emit connectionError(QString("Closing State"));
         break;
     default:
         emit connectionError(QString("Connection error"));

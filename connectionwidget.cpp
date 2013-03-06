@@ -56,7 +56,7 @@ ConnectionWidget::ConnectionWidget(QWidget *parent) :
     addressEdit->setMinimumWidth(80);
     addressEdit->setFixedHeight(24);
     addressEdit->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Minimum);
-    portEdit = new QLineEdit("50500");
+    portEdit = new QLineEdit("52292");
     portEdit->setMinimumWidth(60);
     portEdit->setFixedHeight(24);
     portEdit->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Minimum);

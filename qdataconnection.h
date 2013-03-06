@@ -4,6 +4,8 @@
 #include <QWidget>
 #include <QTcpSocket>
 #include <QUdpSocket>
+#include <QByteArray>
+#include <QDebug>
 #include <QtSerialPort/qserialport.h>
 #include <QtSerialPort/qserialportinfo.h>
 
