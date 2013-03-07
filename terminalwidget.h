@@ -31,7 +31,7 @@ public slots:
 signals:
     void sendData(QByteArray);
     void widgetRemoved(void);
-        void terminalConnectionRequest(QString);
+    void terminalConnectionRequest(QString);
 private:
     void resizeEvent(QResizeEvent *);
     QTerminalEdit *asciiTerminal;
@@ -61,21 +61,22 @@ private:
 
     // Layout:
     QHBoxLayout *controlLayout;
+    QHBoxLayout *aschexLayout;
     QHBoxLayout *packetLayout;
     QHBoxLayout *terminalLayout;
     QVBoxLayout *mainLayout;
-        QFrame *frame;
+    QFrame *frame;
 
-        // Assets:
-        QPixmap delIconPixmap;
-        QPixmap echoOnIconPixmap;
-        QPixmap echoOffIconPixmap;
-        QPixmap playIconPixmap;
-        QPixmap pauseIconPixmap;
-        QPixmap clearIconPixmap;
-        QPixmap ascIconPixmap;
-        QPixmap hexIconPixmap;
-        QPixmap sendIconPixmap;
+    // Assets:
+    QPixmap delIconPixmap;
+    QPixmap echoOnIconPixmap;
+    QPixmap echoOffIconPixmap;
+    QPixmap playIconPixmap;
+    QPixmap pauseIconPixmap;
+    QPixmap clearIconPixmap;
+    QPixmap ascIconPixmap;
+    QPixmap hexIconPixmap;
+    QPixmap sendIconPixmap;
 
 private slots:
     void textEntered(QString, bool);

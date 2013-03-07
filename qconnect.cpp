@@ -15,6 +15,11 @@ QConnect::QConnect(QWidget *parent)
 
     connectionList->newConnection();
     terminalList->terminalList.at(0)->assignConnection(connectionList->connectionList.at(0));
+
+    QFile qss("../QConnect/qconnect.css");
+    qss.open(QFile::ReadOnly);
+    setStyleSheet(qss.readAll());
+    qss.close();
 }
 
 QConnect::~QConnect()

@@ -17,11 +17,12 @@ ConnectionWidget::ConnectionWidget(QWidget *parent) :
 
     // Control
     nameEdit = new QLineEdit("Connection 1");
-    nameEdit->setToolTip("Connection name");
+    nameEdit->setToolTip("Enter a connection name");
     nameEdit->setMinimumWidth(200);
     nameEdit->setFixedHeight(24);
 
     connectButton = new QPushButton;
+    connectButton->setToolTip("Open connection");
     connectButton->setIcon(QIcon(connOffIconPixmap));
     connectButton->setFixedWidth(24);
     connectButton->setFixedHeight(24);
@@ -42,10 +43,12 @@ ConnectionWidget::ConnectionWidget(QWidget *parent) :
     addressLabel->setFixedWidth(50);
     addressLabel->setFixedHeight(24);
     addressLabel->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Minimum);
+    addressLabel->setAlignment(Qt::AlignCenter);
     portLabel = new QLabel("Port");
     portLabel->setFixedWidth(40);
     portLabel->setFixedHeight(24);
     portLabel->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Minimum);
+    portLabel->setAlignment(Qt::AlignCenter);
     typeButton = new QPushButton;
     typeButton->setToolTip("Toggle between TCP, UDP, and COM connection");
     typeButton->setFixedHeight(24);
@@ -53,10 +56,12 @@ ConnectionWidget::ConnectionWidget(QWidget *parent) :
     typeButton->setIcon(QIcon(tcpIconPixmap));
     typeButton->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Minimum);
     addressEdit = new QLineEdit("127.0.0.1");
+    addressEdit->setToolTip("Enter an IP adress or serial port");
     addressEdit->setMinimumWidth(80);
     addressEdit->setFixedHeight(24);
     addressEdit->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Minimum);
     portEdit = new QLineEdit("52292");
+    portEdit->setToolTip("Enter an IP port or baud rate");
     portEdit->setMinimumWidth(60);
     portEdit->setFixedHeight(24);
     portEdit->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Minimum);
@@ -311,6 +316,7 @@ void ConnectionWidget::connectionChanged(connectionState newState)
     {
         connectButton->setIcon(QIcon(connOnIconPixmap));
         connectButton->setEnabled(true);
+        connectButton->setToolTip("Close connection");
         statusBar->setText("Connected");
         togglePropertyFields(false);
     }
@@ -322,8 +328,9 @@ void ConnectionWidget::connectionChanged(connectionState newState)
     }
     else
     {
-         connectButton->setIcon(QIcon(connOffIconPixmap));
+        connectButton->setIcon(QIcon(connOffIconPixmap));
         connectButton->setEnabled(true);
+        connectButton->setToolTip("Open connection");
         togglePropertyFields(true);
     }
 }

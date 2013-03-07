@@ -35,4 +35,5 @@ OTHER_FILES += \
     livelistwidget.css \
     terminalwidget.css \
     connectionwidget.css \
-    terminallistwidget.css
+    terminallistwidget.css \
+    qconnect.css

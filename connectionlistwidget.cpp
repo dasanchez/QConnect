@@ -7,6 +7,7 @@ ConnectionListWidget::ConnectionListWidget(QWidget *parent)
 
     widgetNameLabel = new QLabel("Connection List");
     newConnBtn = new QPushButton("New Connection");
+    newConnBtn->setFixedHeight(24);
 
     topLayout = new QHBoxLayout;
     topLayout->addWidget(widgetNameLabel);

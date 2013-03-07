@@ -36,9 +36,6 @@ private:
     QScrollArea *scrollArea;
     QVBoxLayout *scrollAreaVLayout;
     QWidget *saWidgetContents;
-
-//    LiveListWidget *listWidget;
-
     QStringList nameList;
 
 private slots:
