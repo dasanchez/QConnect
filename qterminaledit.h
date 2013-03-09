@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QPlainTextEdit>
+#include <QDebug>
 
 class QTerminalEdit : public QPlainTextEdit
 {
@@ -10,8 +11,8 @@ class QTerminalEdit : public QPlainTextEdit
 public:
     explicit QTerminalEdit(QWidget *parent = 0);
     void setHex(bool);
-    void appendText(QString);
-    void appendText(QString, bool);
+    void appendText(QByteArray);
+    void appendText(QByteArray, bool);
     bool willEcho(void);
 signals:
     void textEntered(QString,bool);

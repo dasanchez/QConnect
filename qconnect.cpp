@@ -14,6 +14,7 @@ QConnect::QConnect(QWidget *parent)
     connect(terminalList,SIGNAL(terminalRequest(TerminalWidget*,QString)),this,SLOT(handleTerminalRequest(TerminalWidget*,QString)));
 
     connectionList->newConnection();
+    connectionList->newConnection();
     terminalList->terminalList.at(0)->assignConnection(connectionList->connectionList.at(0));
 
     QFile qss("../QConnect/qconnect.css");

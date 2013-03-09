@@ -13,9 +13,11 @@ QTerminalEdit::QTerminalEdit(QWidget *parent) :
 
 void QTerminalEdit::keyPressEvent(QKeyEvent *e)
 {
+   QByteArray dataIn;
+   dataIn.append(e->text());
     if(echoBytes)
     {
-        appendText(e->text(),true);
+        appendText(dataIn,true);
     }
     emit textEntered(e->text(),hexMode);
 }
@@ -36,7 +38,7 @@ void QTerminalEdit::setHex(bool hex)
     setWordWrapMode(QTextOption::WordWrap);
 }
 
-void QTerminalEdit::appendText(QString newText)
+void QTerminalEdit::appendText(QByteArray newText)
 {
     QTextCursor tc = this->textCursor();
     QTextCharFormat tcf = tc.charFormat();
@@ -47,11 +49,13 @@ void QTerminalEdit::appendText(QString newText)
     if(hexMode)
     {
         QString hexFormat;
+//        qDebug() << "terminal sees: " << newText.toHex();
 
         while(newText.size()>0)
         {
-            QString temp = newText.left(1).toLatin1().toHex().toUpper();
+            QString temp = newText.left(1).toHex().toUpper();
             newText.remove(0,1);
+//            qDebug() << temp;
             hexFormat.append(temp);
             hexFormat.append(" ");
             if(temp==QString("0D"))
@@ -65,13 +69,23 @@ void QTerminalEdit::appendText(QString newText)
     }
     else
     {
-        tc.insertText(newText);
+        QString data;
+        foreach(char ch, newText)
+        {
+            if(ch !=0)
+            {
+                data.append(ch);
+            }
+        }
+
+        tc.insertText(data);
         tc.movePosition(QTextCursor::End);
+
     }
     this->setTextCursor(tc);
 }
 
-void QTerminalEdit::appendText(QString newText, bool internal)
+void QTerminalEdit::appendText(QByteArray newText, bool internal)
 {
     QTextCursor tc = this->textCursor();
     QTextCharFormat tcf = tc.charFormat();
@@ -83,11 +97,12 @@ void QTerminalEdit::appendText(QString newText, bool internal)
         if(hexMode)
         {
             QString hexFormat;
-
+//            qDebug() << "terminal sees: " << newText.toHex();
             while(newText.size()>0)
             {
-                QString temp = newText.left(1).toLatin1().toHex().toUpper();
+                QString temp = newText.left(1).toHex().toUpper();
                 newText.remove(0,1);
+//                qDebug() << temp;
                 hexFormat.append(temp);
                 hexFormat.append(" ");
                 if(temp==QString("0D"))
@@ -102,8 +117,17 @@ void QTerminalEdit::appendText(QString newText, bool internal)
         }
         else
         {
+            QString data;
+            foreach(char ch, newText)
+            {
+                if(ch !=0)
+                {
+                    data.append(ch);
+                }
+            }
+
             tc.setCharFormat(tcf);
-            tc.insertText(newText);
+            tc.insertText(data);
             tc.movePosition(QTextCursor::End);
 
         }

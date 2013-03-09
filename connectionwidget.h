@@ -37,6 +37,8 @@ public slots:
     void dataTx(QByteArray);
     
 private:
+    void setupUI();
+
     // Control
     QPushButton *removeButton;
     QLineEdit *nameEdit;

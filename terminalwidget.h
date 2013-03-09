@@ -34,6 +34,7 @@ signals:
     void terminalConnectionRequest(QString);
 private:
     void resizeEvent(QResizeEvent *);
+    void setupUI();
     QTerminalEdit *asciiTerminal;
     QTerminalEdit *hexTerminal;
     QRegExp hexRegex;
@@ -77,6 +78,7 @@ private:
     QPixmap ascIconPixmap;
     QPixmap hexIconPixmap;
     QPixmap sendIconPixmap;
+
 
 private slots:
     void textEntered(QString, bool);

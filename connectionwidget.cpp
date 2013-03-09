@@ -15,107 +15,11 @@ ConnectionWidget::ConnectionWidget(QWidget *parent) :
 
     isExpanded=true;
 
-    // Control
-    nameEdit = new QLineEdit("Connection 1");
-    nameEdit->setToolTip("Enter a connection name");
-    nameEdit->setMinimumWidth(200);
-    nameEdit->setFixedHeight(24);
-
-    connectButton = new QPushButton;
-    connectButton->setToolTip("Open connection");
-    connectButton->setIcon(QIcon(connOffIconPixmap));
-    connectButton->setFixedWidth(24);
-    connectButton->setFixedHeight(24);
-    viewButton = new QPushButton;
-    viewButton->setIcon(QIcon(moreIconPixmap));
-    viewButton->setFixedWidth(24);
-    viewButton->setFixedHeight(24);
-    viewButton->setToolTip("Hide or show connection properties");
-    removeButton = new QPushButton;
-    removeButton->setIcon(QIcon(delIconPixmap));
-    removeButton->setFixedWidth(24);
-    removeButton->setFixedHeight(24);
-    removeButton->setToolTip("Remove connection");
-
-    // Connection
-    dataConnection = new QDataConnection;
-    addressLabel = new QLabel("Address");
-    addressLabel->setFixedWidth(50);
-    addressLabel->setFixedHeight(24);
-    addressLabel->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Minimum);
-    addressLabel->setAlignment(Qt::AlignCenter);
-    portLabel = new QLabel("Port");
-    portLabel->setFixedWidth(40);
-    portLabel->setFixedHeight(24);
-    portLabel->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Minimum);
-    portLabel->setAlignment(Qt::AlignCenter);
-    typeButton = new QPushButton;
-    typeButton->setToolTip("Toggle between TCP, UDP, and COM connection");
-    typeButton->setFixedHeight(24);
-    typeButton->setFixedHeight(24);
-    typeButton->setIcon(QIcon(tcpIconPixmap));
-    typeButton->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Minimum);
-    addressEdit = new QLineEdit("127.0.0.1");
-    addressEdit->setToolTip("Enter an IP adress or serial port");
-    addressEdit->setMinimumWidth(80);
-    addressEdit->setFixedHeight(24);
-    addressEdit->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Minimum);
-    portEdit = new QLineEdit("52292");
-    portEdit->setToolTip("Enter an IP port or baud rate");
-    portEdit->setMinimumWidth(60);
-    portEdit->setFixedHeight(24);
-    portEdit->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Minimum);
-    // Status
-    statusBar = new QLabel("Click the Connect button");
-    statusBar->setFixedHeight(24);
-    statusBar->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Minimum);
-    dataIcon = new QPushButton;
-    dataIcon->setIcon(QIcon(inOutIconPixmap));
-    dataIcon->setFixedHeight(24);
-    dataIcon->setFixedWidth(24);
-    dataIconShade = 255;
-    dataIcon->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Minimum);
-    iconTimer = new QTimer;
-    iconTimer->setInterval(50);
-    validName = true;
-
-    // Layout
-    topLayout = new QHBoxLayout;
-    topLayout->addWidget(nameEdit);
-    topLayout->addWidget(connectButton);
-    topLayout->addWidget(viewButton);
-    topLayout->addWidget(removeButton);
-    topLayout->setMargin(0);
-
-    controlLayout = new QHBoxLayout;
-    controlLayout->addWidget(typeButton);
-    controlLayout->addWidget(addressLabel);
-    controlLayout->addWidget(addressEdit);
-    controlLayout->addWidget(portLabel);
-    controlLayout->addWidget(portEdit);
-
-    bottomLayout = new QHBoxLayout;
-    bottomLayout->addWidget(statusBar);
-    bottomLayout->addWidget(dataIcon);
-    bottomLayout->setMargin(0);
-
-    mainLayout = new QVBoxLayout;
-
-    mainLayout->addLayout(topLayout);
-    mainLayout->addLayout(controlLayout);
-    mainLayout->addLayout(bottomLayout);
-
-    this->setLayout(mainLayout);
-    mainLayout->setSpacing(5);
-    mainLayout->setMargin(5);
-    this->setFixedWidth(360);
-    this->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Minimum);
-
-    // UI SIGNALS
-    connect(viewButton,SIGNAL(clicked()),this,SLOT(toggleView()));
-    connect(iconTimer,SIGNAL(timeout()),this,SLOT(animateDataIcon()));
-    connect(removeButton,SIGNAL(clicked()),this,SLOT(remove()));
-    connect(nameEdit,SIGNAL(textChanged(QString)),this,SIGNAL(nameChange()));
+    setupUI();
+    toggleType();
+    toggleType();
+    addressEdit->setText("COM3");
+    addressChanged("COM3");
 
     // Data connection Signals
     connect(typeButton,SIGNAL(clicked()),this,SLOT(toggleType()));
@@ -348,4 +252,109 @@ void ConnectionWidget::togglePropertyFields(bool enabled)
     portEdit->setEnabled(enabled);
 
 
+}
+
+void ConnectionWidget::setupUI()
+{
+    // Control
+    nameEdit = new QLineEdit("Connection 1");
+    nameEdit->setToolTip("Enter a connection name");
+    nameEdit->setMinimumWidth(200);
+    nameEdit->setFixedHeight(24);
+
+    connectButton = new QPushButton;
+    connectButton->setToolTip("Open connection");
+    connectButton->setIcon(QIcon(connOffIconPixmap));
+    connectButton->setFixedWidth(24);
+    connectButton->setFixedHeight(24);
+    viewButton = new QPushButton;
+    viewButton->setIcon(QIcon(moreIconPixmap));
+    viewButton->setFixedWidth(24);
+    viewButton->setFixedHeight(24);
+    viewButton->setToolTip("Hide or show connection properties");
+    removeButton = new QPushButton;
+    removeButton->setIcon(QIcon(delIconPixmap));
+    removeButton->setFixedWidth(24);
+    removeButton->setFixedHeight(24);
+    removeButton->setToolTip("Remove connection");
+
+    // Connection
+    dataConnection = new QDataConnection;
+    addressLabel = new QLabel("Address");
+    addressLabel->setFixedWidth(50);
+    addressLabel->setFixedHeight(24);
+    addressLabel->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Minimum);
+    addressLabel->setAlignment(Qt::AlignCenter);
+    portLabel = new QLabel("Port");
+    portLabel->setFixedWidth(40);
+    portLabel->setFixedHeight(24);
+    portLabel->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Minimum);
+    portLabel->setAlignment(Qt::AlignCenter);
+    typeButton = new QPushButton;
+    typeButton->setToolTip("Toggle between TCP, UDP, and COM connection");
+    typeButton->setFixedHeight(24);
+    typeButton->setFixedHeight(24);
+    typeButton->setIcon(QIcon(tcpIconPixmap));
+    typeButton->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Minimum);
+    addressEdit = new QLineEdit("127.0.0.1");
+    addressEdit->setToolTip("Enter an IP adress or serial port");
+    addressEdit->setMinimumWidth(80);
+    addressEdit->setFixedHeight(24);
+    addressEdit->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Minimum);
+    portEdit = new QLineEdit("52292");
+    portEdit->setToolTip("Enter an IP port or baud rate");
+    portEdit->setMinimumWidth(60);
+    portEdit->setFixedHeight(24);
+    portEdit->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Minimum);
+    // Status
+    statusBar = new QLabel("Click the Connect button");
+    statusBar->setFixedHeight(24);
+    statusBar->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Minimum);
+    dataIcon = new QPushButton;
+    dataIcon->setIcon(QIcon(inOutIconPixmap));
+    dataIcon->setFixedHeight(24);
+    dataIcon->setFixedWidth(24);
+    dataIconShade = 255;
+    dataIcon->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Minimum);
+    iconTimer = new QTimer;
+    iconTimer->setInterval(50);
+    validName = true;
+
+    // Layout
+    topLayout = new QHBoxLayout;
+    topLayout->addWidget(nameEdit);
+    topLayout->addWidget(connectButton);
+    topLayout->addWidget(viewButton);
+    topLayout->addWidget(removeButton);
+    topLayout->setMargin(0);
+
+    controlLayout = new QHBoxLayout;
+    controlLayout->addWidget(typeButton);
+    controlLayout->addWidget(addressLabel);
+    controlLayout->addWidget(addressEdit);
+    controlLayout->addWidget(portLabel);
+    controlLayout->addWidget(portEdit);
+
+    bottomLayout = new QHBoxLayout;
+    bottomLayout->addWidget(statusBar);
+    bottomLayout->addWidget(dataIcon);
+    bottomLayout->setMargin(0);
+
+    mainLayout = new QVBoxLayout;
+
+    mainLayout->addLayout(topLayout);
+    mainLayout->addLayout(controlLayout);
+    mainLayout->addLayout(bottomLayout);
+
+    this->setLayout(mainLayout);
+    mainLayout->setSpacing(5);
+    mainLayout->setMargin(5);
+    this->setFixedWidth(360);
+    this->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Minimum);
+
+    // UI SIGNALS
+    connect(viewButton,SIGNAL(clicked()),this,SLOT(toggleView()));
+    connect(iconTimer,SIGNAL(timeout()),this,SLOT(animateDataIcon()));
+    connect(removeButton,SIGNAL(clicked()),this,SLOT(remove()));
+    connect(nameEdit,SIGNAL(textChanged(QString)),this,SIGNAL(nameChange()));
 }
