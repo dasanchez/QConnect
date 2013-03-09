@@ -4,7 +4,7 @@ QConnect
 ##Multiple terminal display
 
 ![QConnect Screenshot - Windows 8](./window.png "2013-03-06")
-![QConnect Screenshot - Ubuntu 12.04](./window2.png "2013-03-06")
+![QConnect Screenshot - Ubuntu 12.04](./window2.png "201 windows 83-03-06")
 
 In order to build this project you need to install the QtSerialPort module.
 
