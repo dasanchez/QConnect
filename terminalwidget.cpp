@@ -21,28 +21,6 @@ TerminalWidget::TerminalWidget(QWidget *parent) :
 
     setupUI();
 
-    togglePacketFormat();
-
-    packetEdit->setText("ff4d");
-
-    QString mypacket = packetEdit->text();
-
-    // switch to bytearray:
-    //    QByteArray ba = mypacket.toLocal8Bit();
-    //    QByteArray ba2 = QByteArray::fromHex(ba);
-    //    ba = ba2.toHex();
-    //    QString mypacket2 = QString::fromLatin1(ba2);
-    //    QByteArray b3;
-    //    b3.append(mypacket2);
-    //    QByteArray b4 = b3.toHex();
-
-    //    qDebug() << mypacket << ": " << ba << " -> " << ba2 << " -> " << ba << ": " << mypacket2 << " -> " << b3 << " -> " << b4;
-
-
-    //    togglePacketFormat();
-    //    qDebug() << packetEdit->text();
-
-
     asciiTerminal->setMaximumWidth(this->size().width()/4);
     connect(removeButton,SIGNAL(clicked()),this,SLOT(remove()));
     connect(connectionBox,SIGNAL(activated(QString)),this,SLOT(changeConnection(QString)));
@@ -212,15 +190,6 @@ void TerminalWidget::togglePacketFormat()
 
 void TerminalWidget::dataReceived(QByteArray dataIn)
 {
-//    QByteArray data;
-//    qDebug() << "received: " << dataIn.toHex();
-
-//    foreach (char ch , dataIn){
-//        if(ch!=0)
-//            data.append(ch);
-//    }
-//        qDebug() << data;
-
     if(!paused)
     {
         asciiTerminal->appendText(dataIn);
@@ -249,8 +218,6 @@ void TerminalWidget::sendPacket()
     {
         output.append(displayPacket);
         output = QByteArray::fromHex(output);
-        qDebug() << "sending: " << output.toHex();
-
     }
     else
     {
@@ -261,8 +228,6 @@ void TerminalWidget::sendPacket()
         asciiTerminal->appendText(output,true);
         hexTerminal->appendText(output,true);
     }
-
-//    output.append(packet);
     emit sendData(output);
 }
 
@@ -275,7 +240,10 @@ QString TerminalWidget::char2hex(QString characters)
         QByteArray temparray;
         temparray.append(characters.left(1));
         hexChars.append(temparray.toHex().toUpper());
-        hexChars.append(" ");
+        if(characters.size()>1)
+        {
+            hexChars.append(" ");
+        }
         characters.remove(0,1);
     }
     return hexChars;
@@ -288,19 +256,14 @@ QString TerminalWidget::hex2char(QString hexChars)
     hexRegex.indexIn(hexChars);
     QString temp = hexRegex.cap();
 
-    while(temp.size()>0)
-    {
-        QByteArray temparray;
-        temparray.clear();
-        temparray.append(temp.left(2));
-        characters.append(tr(QByteArray::fromHex(temparray)));
-        //        qDebug() << characters.toHex();
-        temp.remove(0,2);
-        if(temp.size()>0 && temp.at(0)==' ')
-        {
-            temp.remove(0,1);
-        }
-    }
+    // Remove all spaces from string
+    temp=temp.simplified();
+    temp = temp.replace(' ',"");
+
+    // Use a QByteArray to convert
+    characters.append(temp);
+    characters = QByteArray::fromHex(characters);
+
     return characters;
 }
 

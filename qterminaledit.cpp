@@ -49,13 +49,11 @@ void QTerminalEdit::appendText(QByteArray newText)
     if(hexMode)
     {
         QString hexFormat;
-//        qDebug() << "terminal sees: " << newText.toHex();
 
         while(newText.size()>0)
         {
             QString temp = newText.left(1).toHex().toUpper();
             newText.remove(0,1);
-//            qDebug() << temp;
             hexFormat.append(temp);
             hexFormat.append(" ");
             if(temp==QString("0D"))
@@ -97,12 +95,10 @@ void QTerminalEdit::appendText(QByteArray newText, bool internal)
         if(hexMode)
         {
             QString hexFormat;
-//            qDebug() << "terminal sees: " << newText.toHex();
             while(newText.size()>0)
             {
                 QString temp = newText.left(1).toHex().toUpper();
                 newText.remove(0,1);
-//                qDebug() << temp;
                 hexFormat.append(temp);
                 hexFormat.append(" ");
                 if(temp==QString("0D"))

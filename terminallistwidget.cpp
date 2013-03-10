@@ -14,7 +14,7 @@ TerminalListWidget::TerminalListWidget(QWidget *parent) :
     splitter = new QSplitter(this);
     splitter->setOrientation(Qt::Vertical);
     splitter->setChildrenCollapsible(false);
-    newTerminal();
+//    newTerminal();
 
     scrollArea = new QScrollArea;
     scrollAreaVLayout = new QVBoxLayout;

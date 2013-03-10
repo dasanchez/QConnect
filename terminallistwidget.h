@@ -24,6 +24,7 @@ signals:
     void terminalRequest(TerminalWidget*,QString);
 public slots:
     void updateConnections(QStringList);
+    void newTerminal(void);
 
 private:
     QVBoxLayout *mainLayout;
@@ -39,7 +40,7 @@ private:
     QStringList nameList;
 
 private slots:
-    void newTerminal(void);
+
     void terminalRemoved(void);
     void terminalConnectionRequest(QString);
     void sizeChanged(QSize);
